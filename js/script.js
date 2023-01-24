@@ -36,7 +36,7 @@ function iniciarJuego() {
         if (movimiento_player == ATTACK) {
             player.ataque = calcularValor(player.ataque_min, player.ataque_max);
             alert("Elegiste atacar con un ataque de " + player.ataque);
-        } 
+        }
         else if (movimiento_player == DEFEND) {
             player.defensa = calcularValor(player.defensa_min, player.defensa_max);
             alert("Elegiste defender con una defensa de " + player.defensa);
@@ -46,7 +46,7 @@ function iniciarJuego() {
         if (movimiento_pc == ATTACK) {
             enemy.ataque = calcularValor(enemy.ataque_min, enemy.ataque_max);
             alert("El enemigo ataca con un ataque de " + enemy.ataque);
-        } 
+        }
         else if (movimiento_pc == DEFEND) {
             enemy.defensa = calcularValor(enemy.defensa_min, enemy.defensa_max);
             alert("El enemigo defiende con una defensa de " + enemy.defensa);
@@ -81,12 +81,22 @@ function calcularResultado(movimiento_player, movimiento_pc) {
         alert("Los dos defienden\nTu vida restante: " + player.vida + "\nVida restante del enemigo: " + enemy.vida);
     }
     else if (movimiento_player == ATTACK && movimiento_pc == DEFEND) {
-        enemy.vida -= (player.ataque - enemy.defensa);
-        alert("Atacaste, el enemigo defiende\nTu vida restante: " + player.vida + "\nVida restante del enemigo: " + enemy.vida);
+        if (enemy.defensa > player.ataque) {
+            alert("La defensa de tu enemigo fue mayor a tu ataque, no le hiciste daño");
+        }
+        else {
+            enemy.vida -= (player.ataque - enemy.defensa);
+            alert("Atacaste, el enemigo defiende\nTu vida restante: " + player.vida + "\nVida restante del enemigo: " + enemy.vida);
+        }
     }
     else if (movimiento_player == DEFEND && movimiento_pc == ATTACK) {
-        player.vida -= (enemy.ataque - player.defensa);
-        alert('Defendiste, el enemigo atacó\nTu vida restante: ' + player.vida + '\nVida restante del enemigo: ' + enemy.vida)
+        if (player.defensa > enemy.ataque) {
+            alert("Tu defensa es mayor al ataque del enemigo, no recibes daño");
+        }
+        else {
+            player.vida -= (enemy.ataque - player.defensa);
+            alert('Defendiste, el enemigo atacó\nTu vida restante: ' + player.vida + '\nVida restante del enemigo: ' + enemy.vida)
+        }
     }
 }
 
