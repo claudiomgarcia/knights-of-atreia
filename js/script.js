@@ -12,6 +12,7 @@ function Personaje(vida, ataque_min, ataque_max, defensa_min, defensa_max, espec
 const player = new Personaje(500, 80, 100, 80, 90, 150);
 const enemy = new Personaje(500, 70, 90, 70, 80, 140);
 
+//Declaracion de variables globales
 const ATTACK = 0;
 const DEFEND = 1
 let movimiento_player
