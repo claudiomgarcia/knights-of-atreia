@@ -35,21 +35,21 @@ function iniciarJuego() {
         }
 
         if (movimiento_player == ATTACK) {
-            player.ataque = calcularValor(player.ataque_min, player.ataque_max);
+            player.ataque = calcDamage(player.ataque_min, player.ataque_max);
             alert("Elegiste atacar con un ataque de " + player.ataque);
         }
         else if (movimiento_player == DEFEND) {
-            player.defensa = calcularValor(player.defensa_min, player.defensa_max);
+            player.defensa = calcDefense(player.defensa_min, player.defensa_max);
             alert("Elegiste defender con una defensa de " + player.defensa);
         }
 
         movimiento_pc = getEnemyMove();
         if (movimiento_pc == ATTACK) {
-            enemy.ataque = calcularValor(enemy.ataque_min, enemy.ataque_max);
+            enemy.ataque = calcDamage(enemy.ataque_min, enemy.ataque_max);
             alert("El enemigo ataca con un ataque de " + enemy.ataque);
         }
         else if (movimiento_pc == DEFEND) {
-            enemy.defensa = calcularValor(enemy.defensa_min, enemy.defensa_max);
+            enemy.defensa = calcDefense(enemy.defensa_min, enemy.defensa_max);
             alert("El enemigo defiende con una defensa de " + enemy.defensa);
         }
 
@@ -101,13 +101,23 @@ function calcularResultado(movimiento_player, movimiento_pc) {
     }
 }
 
-//Calcula el valor del ataque o la defensa tomando los valores minimos y maximos de cada personaje
-function calcularValor(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
+//Calcula el valor del ataque segun los valores minimos y maximos de cada personaje y calcula la posibilidad de un golpe critico 
+function calcDamage(min, max) {
+    let damage = Math.floor(Math.random() * (max - min + 1) + min);
+    let criticalHitChance = Math.random() * 100;
+
+    if (criticalHitChance <= 10) {
+        damage *= Math.floor(1.2);
+        alert('Daño Critico!')
+    }
+    return damage
 }
 
-
-
+//Calcula el valor de la defensa tomando los valores minimos y maximos de cada personaje
+function calcDefense(min, max) {
+    let valor = Math.floor(Math.random() * (max - min + 1) + min);
+    return valor
+}
 
 
 
