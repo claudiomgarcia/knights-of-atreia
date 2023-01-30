@@ -22,7 +22,7 @@ p{
 .seccionPrincipal {
     width: 100%;
     height: 100vh;
-    background-image: url(/img/bg.jpg);
+    background-image: url(../img/bg.jpg);
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -32,7 +32,7 @@ p{
 .seccionBatalla {
     width: 100%;
     height: 100vh;
-    background-image: url(/img/bg-battle.png);
+    background-image: url(../img/bg-battle.png);
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -42,7 +42,7 @@ p{
 .seccionVictoria {
     width: 100%;
     height: 100vh;
-    background-image: url(/img/victoria.jpg);
+    background-image: url(../img/victoria.jpg);
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -52,7 +52,7 @@ p{
 .seccionDerrota {
     width: 100%;
     height: 100vh;
-    background-image: url(/img/derrota.jpg);
+    background-image: url(../img/derrota.jpg);
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
