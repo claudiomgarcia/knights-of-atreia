@@ -1,104 +1,40 @@
-//Función constructor para crear un personaje
-function Personaje(vida, ataque_min, ataque_max, defensa_min, defensa_max, especial) {
-    this.ataque_min = ataque_min;
-    this.vida = vida;
-    this.ataque_max = ataque_max;
-    this.defensa_min = defensa_min;
-    this.defensa_max = defensa_max;
-    this.especial = especial;
+//Clase constructora para crear un personaje
+class Personaje {
+    constructor(vida, ataque_min, ataque_max, defensa_min, defensa_max, especial) {
+        this.ataque_min = ataque_min;
+        this.vida = vida;
+        this.ataque_max = ataque_max;
+        this.defensa_min = defensa_min;
+        this.defensa_max = defensa_max;
+        this.especial = especial;
+    }
 }
 
 // Creación de los objetos player y enemy 
-const player = new Personaje(500, 80, 100, 80, 90, 150);
-const enemy = new Personaje(500, 70, 90, 70, 80, 140);
+const player = new Personaje(1000, 80, 100, 80, 90, 150);
+const enemy = new Personaje(1000, 70, 90, 75, 85, 150);
 
-//Declaracion de variables globales
+//Declaracion de variables
+const nuevaSeccion = document.getElementById("seccion-principal")
+const nuevaMusica = document.getElementById("musica")
 const ATTACK = 0;
 const DEFEND = 1
 let movimiento_player
 let movimiento_pc
+let textoBatalla
+let playerHealthBar
+let enemyHealthBar
+let hpTextPlayer
+let hpTextEnemy
 
+//Boton para iniciar el Juego
 const btnJugar = document.getElementById("jugar")
 
-btnJugar.addEventListener('click', iniciarJuego)
-
-//Inicia El Juego
-function iniciarJuego() {
-    alert('Bienvenidos a Knights of Atreia')
-
-    while (player.vida > 0 && enemy.vida > 0) {
-        movimiento_player = parseInt(prompt("Elige tu movimiento: 0 para atacar, 1 para defender"));
-
-        if (movimiento_player !== ATTACK && movimiento_player !== DEFEND) {
-            alert("Movimiento no válido, por favor elige de nuevo.");
-            continue;
-        }
-
-        if (movimiento_player == ATTACK) {
-            player.ataque = calcDamage(player.ataque_min, player.ataque_max);
-            alert("Elegiste atacar con un ataque de " + player.ataque);
-        }
-        else if (movimiento_player == DEFEND) {
-            player.defensa = calcDefense(player.defensa_min, player.defensa_max);
-            alert("Elegiste defender con una defensa de " + player.defensa);
-        }
-
-        movimiento_pc = getEnemyMove();
-        if (movimiento_pc == ATTACK) {
-            enemy.ataque = calcDamage(enemy.ataque_min, enemy.ataque_max);
-            alert("El enemigo ataca con un ataque de " + enemy.ataque);
-        }
-        else if (movimiento_pc == DEFEND) {
-            enemy.defensa = calcDefense(enemy.defensa_min, enemy.defensa_max);
-            alert("El enemigo defiende con una defensa de " + enemy.defensa);
-        }
-
-        //Llama a la funcion para calcular daños    
-        calcularResultado(movimiento_player, movimiento_pc);
-
-    }
-
-    //Comprueba que los personajes tengan vida
-    if (player.vida <= 0) {
-        alert("Perdiste");
-    } else if (enemy.vida <= 0) {
-        alert("Ganaste!");
-    }
-}
+btnJugar.addEventListener('click', iniciarBatalla)
 
 //Calcula el movimiento del enemigo
 function getEnemyMove() {
     return Math.round(Math.random());
-}
-
-//Funcion para calcular los daños en los ataques
-function calcularResultado(movimiento_player, movimiento_pc) {
-    if (movimiento_player == ATTACK && movimiento_pc == ATTACK) {
-        player.vida -= enemy.ataque;
-        enemy.vida -= player.ataque;
-        alert("Los dos atacan\nTu vida restante: " + player.vida + "\nVida restante del enemigo: " + enemy.vida);
-    }
-    else if (movimiento_player == DEFEND && movimiento_pc == DEFEND) {
-        alert("Los dos defienden\nTu vida restante: " + player.vida + "\nVida restante del enemigo: " + enemy.vida);
-    }
-    else if (movimiento_player == ATTACK && movimiento_pc == DEFEND) {
-        if (enemy.defensa > player.ataque) {
-            alert("La defensa de tu enemigo fue mayor a tu ataque, no le hiciste daño");
-        }
-        else {
-            enemy.vida -= (player.ataque - enemy.defensa);
-            alert("Atacaste, el enemigo defiende\nTu vida restante: " + player.vida + "\nVida restante del enemigo: " + enemy.vida);
-        }
-    }
-    else if (movimiento_player == DEFEND && movimiento_pc == ATTACK) {
-        if (player.defensa > enemy.ataque) {
-            alert("Tu defensa es mayor al ataque del enemigo, no recibes daño");
-        }
-        else {
-            player.vida -= (enemy.ataque - player.defensa);
-            alert('Defendiste, el enemigo atacó\nTu vida restante: ' + player.vida + '\nVida restante del enemigo: ' + enemy.vida)
-        }
-    }
 }
 
 //Calcula el valor del ataque segun los valores minimos y maximos de cada personaje y calcula la posibilidad de un golpe critico 
@@ -108,7 +44,7 @@ function calcDamage(min, max) {
 
     if (criticalHitChance <= 10) {
         damage *= Math.floor(1.2);
-        alert('Daño Critico!')
+        alert("Daño Critico")
     }
     return damage
 }
@@ -119,5 +55,183 @@ function calcDefense(min, max) {
     return valor
 }
 
+function iniciarBatalla() {
+    nuevaMusica.innerHTML = `<audio src="./audio/battle.mp3" autoplay="autoplay" loop="loop"></audio>`
+    nuevaSeccion.innerHTML =
+        `
+        <main class="seccionBatalla">
+        <h2><a href="index.html">Knights of Atreia</a> </h2>
+        <section class="paralela">
+          <span class="nombre-usuario">
+            <h3>Jugador</h3>
+          </span>
+          <p><img src="img/gladi.png" alt="Gladiador"></p>
+    
+          <div class="health">
+            <progress id="player-health-bar" max="" value=""></progress>
+            <p id="player-health-text"></p>
+          </div>
+    
+          <div class="habilidades">
+            <img src="img/boton-ataque.png" alt="Atacar" id="btnAtacar">
+            <img src="img/boton-defensa.png" alt="Defender" id="btnDefender">
+          </div>
+    
+        </section>
+    
+        <section class="paralela">
+          <span class="nombre-enemigo">
+            <h3>Calydon Bandit</h3>
+          </span>
+          <p><img src="img/calydon-bandit.png" alt="Calydon Bandit"></p>
+    
+          <div class="health">
+            <progress id="enemy-health-bar" max="" value=""></progress>
+            <p id="enemy-health-text"></p>
+          </div>
+    
+          </section>
+    
+          <div class="texto-batalla" id="texto-batalla"></div>
+            
+           </section>
+      </main>
+`
+    // Obtiene los elementos de la barra de vida desde el DOM
+    playerHealthBar = document.getElementById("player-health-bar");
+    enemyHealthBar = document.getElementById("enemy-health-bar");
+
+    // Carga los valores maximos y vida actual en la barra de vida
+    playerHealthBar.max = player.vida;
+    enemyHealthBar.max = enemy.vida;
+    playerHealthBar.value = player.vida;
+    enemyHealthBar.value = enemy.vida;
 
 
+    // Obtiene el texto que indicará la vida restante
+    hpTextPlayer = document.getElementById("player-health-text");
+    hpTextEnemy = document.getElementById("enemy-health-text");
+
+    // Actualiza el texto de la vida restante
+    hpTextPlayer.innerHTML = "HP: " + player.vida;
+    hpTextEnemy.innerHTML = "HP: " + enemy.vida;
+
+    let pulsadorAtacar = document.getElementById("btnAtacar")
+    let PulsadorDefensa = document.getElementById("btnDefender")
+
+    pulsadorAtacar.addEventListener('click', attackFunction)
+    PulsadorDefensa.addEventListener('click', defenseFunction)
+
+
+}
+
+function attackFunction() {
+    textoBatalla = document.getElementById("texto-batalla");
+
+    player.ataque = calcDamage(player.ataque_min, player.ataque_max)
+
+    movimiento_pc = getEnemyMove();
+    console.log(movimiento_pc);
+
+    if (movimiento_pc == ATTACK) {
+        enemy.ataque = calcDamage(enemy.ataque_min, enemy.ataque_max);
+        textoBatalla.innerHTML = `
+         <p>Atacas con ${player.ataque} puntos</p>
+         <p>El enemigo ataca con ${enemy.ataque} puntos</p>`
+
+        player.vida -= enemy.ataque;
+        enemy.vida -= player.ataque;
+
+        playerHealthBar.value = player.vida;
+        enemyHealthBar.value = enemy.vida;
+
+        hpTextPlayer.innerHTML = "HP: " + player.vida;
+        hpTextEnemy.innerHTML = "HP: " + enemy.vida;
+
+        comprobarHp(player.vida, enemy.vida);
+    }
+    else if (movimiento_pc == DEFEND) {
+        enemy.defensa = calcDefense(enemy.defensa_min, enemy.defensa_max);
+
+        //Comprueba si la defensa del enemigo es mayor al ataque
+        if (enemy.defensa > player.ataque) {
+            textoBatalla.innerHTML = "La defensa de tu enemigo fue mayor a tu ataque, no le hiciste daño"
+        }
+        else {
+            enemy.vida -= (player.ataque - enemy.defensa);
+            enemyHealthBar.value = enemy.vida;
+            hpTextEnemy.innerHTML = "HP: " + enemy.vida;
+            textoBatalla.innerHTML = `
+        <p>Atacas con ${player.ataque} puntos</p>
+        <p>El enemigo defiende con ${enemy.defensa} puntos</p>`
+        }
+
+        comprobarHp(player.vida, enemy.vida);
+
+    }
+}
+
+function defenseFunction() {
+    textoBatalla = document.getElementById("texto-batalla");
+
+    player.defensa = calcDefense(player.defensa_min, player.defensa_max)
+
+    movimiento_pc = getEnemyMove();
+
+    if (movimiento_pc == ATTACK) {
+        enemy.ataque = calcDamage(enemy.ataque_min, enemy.ataque_max);
+
+        //Comprueba si la defensa del enemigo es mayor al ataque
+        if (player.defensa > enemy.ataque) {
+            textoBatalla.innerHTML = "Tu defensa fue mayor que el ataque enemigo, no recibes daño"
+        }
+        else {
+            textoBatalla.innerHTML = `
+         <p>Defiendes con ${player.defensa} puntos</p>
+         <p>El enemigo ataca con ${enemy.ataque} puntos</p>`
+
+            player.vida -= enemy.ataque;
+            playerHealthBar.value = player.vida;
+            hpTextPlayer.innerHTML = "HP: " + player.vida;
+            comprobarHp(player.vida, enemy.vida);
+        }
+    } else if (movimiento_pc == DEFEND) {
+        textoBatalla.innerHTML = `
+        <p>Los dos defienden</p>`
+    }
+
+    comprobarHp(player.vida, enemy.vida);
+}
+
+
+//Comprueba que los personajes tengan vida
+function comprobarHp(playerHp, enemyHp) {
+    if (playerHp <= 0) {
+        pantallaDerrota();
+    } else if (enemyHp <= 0) {
+        pantallaVictoria();
+    }
+}
+
+
+function pantallaVictoria() {
+    nuevaMusica.innerHTML = `<audio src="./audio/victory.mp3" autoplay="autoplay" loop="loop"></audio>`
+    nuevaSeccion.innerHTML =
+        `
+        <main class="seccionVictoria" id="seccion-victoria">
+        <h1 class="text-focus-in">Victoria</h1>
+        <h4 class="text-focus-in"><a href="index.html">Jugar de nuevo</a></h4>
+        </main>
+`
+}
+
+function pantallaDerrota() {
+    nuevaMusica.innerHTML = `<audio src="./audio/defeat.mp3" autoplay="autoplay" loop="loop"></audio>`
+    nuevaSeccion.innerHTML =
+        `
+        <main class="seccionDerrota" id="seccion-derrota">
+        <h1 class="text-focus-in">Derrota</h1>
+        <h4 class="text-focus-in"><a href="index.html">Jugar de nuevo</a></h4>
+        </main>
+`
+}
