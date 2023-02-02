@@ -98,7 +98,17 @@ function calcDamage(min, max) {
 
     if (criticalHitChance <= 10) {
         damage *= Math.floor(1.2);
-        alert("Daño Critico")
+        Toastify({
+            text: "Daño Critico!",
+            offset: {
+                x: "45vw", // horizontal axis - can be a number or a string indicating unity. eg: '2em'
+                y: "50vh" // vertical axis - can be a number or a string indicating unity. eg: '2em'
+            },
+            style: {
+                background: "linear-gradient(to right, #d40023, #ffab51)",
+            },
+            duration: 2000,
+        }).showToast();
     }
     return damage
 }
