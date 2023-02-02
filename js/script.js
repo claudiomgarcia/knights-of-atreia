@@ -1,3 +1,11 @@
+//Clase constructora usuario
+class Usuario {
+    constructor(nombre, email) {
+        this.nombre = nombre;
+        this.email = email;
+    }
+}
+
 //Clase constructora para crear un personaje
 class Personaje {
     constructor(vida, ataque_min, ataque_max, defensa_min, defensa_max, especial) {
@@ -26,11 +34,57 @@ let playerHealthBar
 let enemyHealthBar
 let hpTextPlayer
 let hpTextEnemy
+let usuario
 
-//Boton para iniciar el Juego
-const btnJugar = document.getElementById("jugar")
+//busco en localStorage el objeto y hago un parse para que JS me devuelva un objeto
+let objectoLocalStorage = JSON.parse(localStorage.getItem("usuario"))
 
-btnJugar.addEventListener('click', iniciarBatalla)
+if (objectoLocalStorage) { //Si Nombre tiene contenido, entonces lo muestro
+    usuario = new Usuario(objectoLocalStorage.nombre, objectoLocalStorage.email)
+
+    asignarValoresAlosInputs(usuario)
+
+} else {
+    usuario = new Usuario('', false)
+    asignarValoresAlosInputs(usuario)
+}
+
+document.getElementById("formGuardarUser").addEventListener("submit", grabarDatos);
+
+function grabarDatos(e) {
+    //Cancelamos el comportamiento del evento
+    e.preventDefault();
+    let valorInputNombre = document.getElementById("inputNombre").value
+    let valorInputEmail = document.getElementById("inputEmail").value
+
+    localStorage.setItem("usuario", JSON.stringify({
+        nombre: valorInputNombre,
+        email: valorInputEmail
+    }))
+    location.reload();
+}
+
+function asignarValoresAlosInputs(usuario) {
+    if (usuario.nombre != '') {
+        document.getElementById("comprobar-usuario").innerHTML = `
+        <h3 class="text-focus-in" id="bienvenida">Bienvenido ${usuario.nombre}</h3>
+                    <button id="jugar" class="myButton">JUGAR</button>`
+        //Boton para iniciar el Juego
+        const btnJugar = document.getElementById("jugar")
+
+        btnJugar.addEventListener('click', iniciarBatalla)
+
+    } else {
+        document.getElementById("comprobar-usuario").innerHTML = `
+                    <h3 class="text-focus-in" id="bienvenida">Por favor, ingresa tus datos:</h3>
+                    <form action="grabarDatos" id="formGuardarUser">
+                    <p><input id="inputNombre" type="text" placeholder="Nombre" name="nombre" required></p>
+                    <p><input id="inputEmail" type="email" placeholder="Email" name="email" required></p>
+                    <button type="submit" class="myButton">Guardar</button>
+                    </form>`
+    }
+}
+
 
 //Calcula el movimiento del enemigo
 function getEnemyMove() {
@@ -63,7 +117,7 @@ function iniciarBatalla() {
         <h2><a href="index.html">Knights of Atreia</a> </h2>
         <section class="paralela">
           <span class="nombre-usuario">
-            <h3>Jugador</h3>
+            <h3>${usuario.nombre}</h3>
           </span>
           <p><img src="img/gladi.png" alt="Gladiador"></p>
     
@@ -121,7 +175,6 @@ function iniciarBatalla() {
 
     pulsadorAtacar.addEventListener('click', attackFunction)
     PulsadorDefensa.addEventListener('click', defenseFunction)
-
 
 }
 
