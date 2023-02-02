@@ -26,7 +26,6 @@ p{
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    padding-top: 15rem;
     text-align: center;
 }
 
@@ -94,6 +93,7 @@ h1 {
     color: #fff;
     text-align: center;
     padding-bottom: 5px;
+    padding-top: 10rem;
     text-shadow: 10px 10px 10px black;
 }
 
