@@ -119,7 +119,7 @@ function iniciarBatalla() {
           <span class="nombre-usuario">
             <h3>${usuario.nombre}</h3>
           </span>
-          <p><img src="img/gladi.png" alt="Gladiador"></p>
+          <p><img src="img/gladi.png" alt="Gladiador" class="imagen-batalla"></p>
     
           <div class="health">
             <progress id="player-health-bar" max="" value=""></progress>
@@ -127,8 +127,8 @@ function iniciarBatalla() {
           </div>
     
           <div class="habilidades">
-            <img src="img/boton-ataque.png" alt="Atacar" id="btnAtacar">
-            <img src="img/boton-defensa.png" alt="Defender" id="btnDefender">
+            <img src="img/boton-ataque.png" alt="Atacar" id="btnAtacar" class="boton-batalla">
+            <img src="img/boton-defensa.png" alt="Defender" id="btnDefender" class="boton-batalla">
           </div>
     
         </section>
@@ -137,7 +137,7 @@ function iniciarBatalla() {
           <span class="nombre-enemigo">
             <h3>Calydon Bandit</h3>
           </span>
-          <p><img src="img/calydon-bandit.png" alt="Calydon Bandit"></p>
+          <p><img src="img/calydon-bandit.png" alt="Calydon Bandit" class="imagen-batalla"></p>
     
           <div class="health">
             <progress id="enemy-health-bar" max="" value=""></progress>
