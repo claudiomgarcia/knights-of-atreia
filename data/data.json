@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1,
+        "vida": 1000,
+        "ataqueMin": 80,
+        "ataqueMax": 100,
+        "defensaMin": 80,
+        "defensaMax": 90,
+        "especial": 150
+    },
+    {
+        "id": 2,
+        "vida": 1000,
+        "ataqueMin": 70,
+        "ataqueMax": 90,
+        "defensaMin": 75,
+        "defensaMax": 85,
+        "especial": 150
+    }
+]

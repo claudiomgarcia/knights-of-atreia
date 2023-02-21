@@ -91,7 +91,7 @@ const pantallaCarga = () => {
     nuevaSeccion.innerHTML = 
     `<div id="carga">
             <p>
-            <img src="../img/loading.gif" alt="Cargando">
+            <img src="./img/loading.gif" alt="Cargando">
             </p>
             <h4>Cargando</h4>
     </div>`
