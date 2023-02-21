@@ -49,8 +49,6 @@ if (objectoLocalStorage) { //Si Nombre tiene contenido, entonces lo muestro
     asignarValoresAlosInputs(usuario)
 }
 
-document.getElementById("formGuardarUser").addEventListener("submit", grabarDatos);
-
 function grabarDatos(e) {
     //Cancelamos el comportamiento del evento
     e.preventDefault();
@@ -71,8 +69,10 @@ function asignarValoresAlosInputs(usuario) {
                     <button id="jugar" class="myButton">JUGAR</button>`
         //Boton para iniciar el Juego
         const btnJugar = document.getElementById("jugar")
-
-        btnJugar.addEventListener('click', iniciarBatalla)
+        btnJugar.onclick = () => {
+            pantallaCarga();
+            setTimeout(iniciarBatalla,2000)
+        }
 
     } else {
         document.getElementById("comprobar-usuario").innerHTML = `
@@ -82,9 +82,20 @@ function asignarValoresAlosInputs(usuario) {
                     <p><input id="inputEmail" type="email" placeholder="Email" name="email" required></p>
                     <button type="submit" class="myButton">Guardar</button>
                     </form>`
+                    document.getElementById("formGuardarUser").addEventListener("submit", grabarDatos);
     }
 }
 
+//Simula una pantalla de carga 
+const pantallaCarga = () => {
+    nuevaSeccion.innerHTML = 
+    `<div id="carga">
+            <p>
+            <img src="../img/loading.gif" alt="Cargando">
+            </p>
+            <h4>Cargando</h4>
+    </div>`
+}
 
 //Calcula el movimiento del enemigo
 function getEnemyMove() {
@@ -101,8 +112,8 @@ function calcDamage(min, max) {
         Toastify({
             text: "Daño Critico!",
             offset: {
-                x: "45vw", // horizontal axis - can be a number or a string indicating unity. eg: '2em'
-                y: "50vh" // vertical axis - can be a number or a string indicating unity. eg: '2em'
+                x: "45vw",
+                y: "50vh"
             },
             style: {
                 background: "linear-gradient(to right, #d40023, #ffab51)",

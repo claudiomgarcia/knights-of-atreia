@@ -266,3 +266,7 @@ a{
     -webkit-transition: 350ms;
     -webkit-transition-timing-function: ease-in-out;
 }
+
+#carga img{
+    width: 25%;
+}
