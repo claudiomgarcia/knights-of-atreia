@@ -2,19 +2,19 @@
     {
         "id": 1,
         "vida": 1000,
-        "ataqueMin": 80,
-        "ataqueMax": 100,
-        "defensaMin": 80,
-        "defensaMax": 90,
+        "ataque_min": 80,
+        "ataque_max": 100,
+        "defensa_min": 80,
+        "defensa_max": 90,
         "especial": 150
     },
     {
         "id": 2,
         "vida": 1000,
-        "ataqueMin": 70,
-        "ataqueMax": 90,
-        "defensaMin": 75,
-        "defensaMax": 85,
+        "ataque_min": 70,
+        "ataque_max": 90,
+        "defensa_min": 75,
+        "defensa_max": 85,
         "especial": 150
     }
 ]

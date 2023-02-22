@@ -18,15 +18,13 @@ class Personaje {
     }
 }
 
-// Creación de los objetos player y enemy 
-const player = new Personaje(1000, 80, 100, 80, 90, 150);
-const enemy = new Personaje(1000, 70, 90, 75, 85, 150);
-
 //Declaracion de variables
 const nuevaSeccion = document.getElementById("seccion-principal")
 const nuevaMusica = document.getElementById("musica")
 const ATTACK = 0;
 const DEFEND = 1
+let player
+let enemy
 let movimiento_player
 let movimiento_pc
 let textoBatalla
@@ -71,7 +69,7 @@ function asignarValoresAlosInputs(usuario) {
         const btnJugar = document.getElementById("jugar")
         btnJugar.onclick = () => {
             pantallaCarga();
-            setTimeout(iniciarBatalla,2000)
+            setTimeout(iniciarBatalla, 2000)
         }
 
     } else {
@@ -82,19 +80,61 @@ function asignarValoresAlosInputs(usuario) {
                     <p><input id="inputEmail" type="email" placeholder="Email" name="email" required></p>
                     <button type="submit" class="myButton">Guardar</button>
                     </form>`
-                    document.getElementById("formGuardarUser").addEventListener("submit", grabarDatos);
+        document.getElementById("formGuardarUser").addEventListener("submit", grabarDatos);
     }
 }
 
-//Simula una pantalla de carga 
+//Simula una pantalla de carga y obtiene los stats de los personajes
 const pantallaCarga = () => {
-    nuevaSeccion.innerHTML = 
-    `<div id="carga">
+    nuevaSeccion.innerHTML =
+        `<div id="carga">
             <p>
             <img src="./img/loading.gif" alt="Cargando">
             </p>
             <h4>Cargando</h4>
     </div>`
+    obtenerStatsPlayer();
+    obtenerStatsEnemy();
+}
+
+//Obtiene las estadisticas del jugador desde el JSON
+const obtenerStatsPlayer = () => {
+    fetch("data/data.json")
+        .then(response => response.json())
+        .then((data) => {
+            statsPlayer = data.find(element => element.id == 1);
+            player = new Personaje(
+                statsPlayer.vida,
+                statsPlayer.ataque_min,
+                statsPlayer.ataque_max,
+                statsPlayer.defensa_min,
+                statsPlayer.defensa_max,
+                statsPlayer.especial
+            );
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+}
+
+//Obtiene las estadisticas del enemigo desde el JSON
+const obtenerStatsEnemy = () => {
+    fetch("data/data.json")
+        .then(response => response.json())
+        .then((data) => {
+            statsEnemy = data.find(element => element.id == 2);
+            enemy = new Personaje(
+                statsEnemy.vida,
+                statsEnemy.ataque_min,
+                statsEnemy.ataque_max,
+                statsEnemy.defensa_min,
+                statsEnemy.defensa_max,
+                statsEnemy.especial
+            );
+        })
+        .catch((error) => {
+            console.log(error)
+        })
 }
 
 //Calcula el movimiento del enemigo
@@ -199,6 +239,7 @@ function iniciarBatalla() {
 
 }
 
+//Funcion de ataque
 function attackFunction() {
     textoBatalla = document.getElementById("texto-batalla");
 
@@ -245,6 +286,7 @@ function attackFunction() {
     }
 }
 
+//Funcion de defensa
 function defenseFunction() {
     textoBatalla = document.getElementById("texto-batalla");
 
@@ -287,7 +329,7 @@ function comprobarHp(playerHp, enemyHp) {
     }
 }
 
-
+//Vista en caso de victoria del jugador
 function pantallaVictoria() {
     nuevaMusica.innerHTML = `<audio src="./audio/victory.mp3" autoplay="autoplay" loop="loop"></audio>`
     nuevaSeccion.innerHTML =
@@ -299,6 +341,7 @@ function pantallaVictoria() {
 `
 }
 
+//Vista en caso de derrota del jugador
 function pantallaDerrota() {
     nuevaMusica.innerHTML = `<audio src="./audio/defeat.mp3" autoplay="autoplay" loop="loop"></audio>`
     nuevaSeccion.innerHTML =
