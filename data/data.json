@@ -10,7 +10,7 @@
     },
     {
         "id": 2,
-        "vida": 1000,
+        "vida": 1100,
         "ataque_min": 70,
         "ataque_max": 90,
         "defensa_min": 75,

@@ -14,39 +14,28 @@ body {
 a {
     color: #fff;
     text-decoration: none;
+    transition: 350ms;
+    transition-timing-function: ease-in-out;
+    -webkit-transition: 350ms;
+    -webkit-transition-timing-function: ease-in-out;
 }
 
-p{
-    padding: 5px;
+a:hover {
+    color: rgb(255, 200, 97);
 }
 
-h1 {
-    font-size: 4rem;
-    color: #fff;
-    text-align: center;
-    text-shadow: 5px 5px 5px black;
-    padding: 5px;
-}
-
-h2 {
-    font-size: 3rem;
-    color: #fff;
-    text-shadow: 5px 5px black;
-    padding: 5px;
-}
-
+h1,
+h2,
 h3 {
-    font-size: 2rem;
+    text-align: center;
+    margin: 10px 0;
     color: #fff;
-    text-shadow: 3px 3px 3px black;
-    padding: 5px;
+    text-shadow: 3px 3px 3 black;
 }
 
 h4 {
-    font-size: 1rem;
     color: #fff;
     text-shadow: 2px 2px 2px black;
-    padding: 5px;
 }
 
 .seccionPrincipal {
@@ -65,7 +54,7 @@ h4 {
 }
 
 #seccion-principal {
-    position:relative;
+    position: relative;
     top: 50%;
 }
 
@@ -110,45 +99,73 @@ h4 {
 }
 
 
-.paralela {
-    width: 50%;
-    min-height: 70vh;
-    float: left;
-    color: #fff;
-    font-size: 18px;
-    text-align: center;
+/* Content */
+.content {
+    display: flex;
+    height: 60%;
+    justify-content: space-between;/* Espacio entre las secciones */
+    align-items: center;/* Centra verticalmente los elementos */
+}
 
+.left-section,
+.right-section {
+    flex: 1;
+    max-width: 45%;/* Establece un ancho máximo */
+    box-sizing: border-box;/* Incluye el borde en el ancho máximo */
+}
+
+/* Contenido responsivo */
+.paralela {
+    max-width: 100%;
+    text-align: center;
 }
 
 .imagen-batalla {
-    width: 50%;
-    max-width: 50%;
+    max-width: 100%;
+    height: auto;
 }
 
-progress{
-    background: lime;
-}
-
-.health progress{
-    width: 50%;
-}
-
+/* Estilos para la clase "habilidades" */
 .habilidades {
-    padding: 10px;
+    display: flex;
+    justify-content: center;/* Centra horizontalmente */
 }
 
+/* Añade este estilo si deseas que las imágenes dentro de la clase "habilidades" tengan un espacio entre ellas */
+.habilidades img {
+    margin: 0 10px;/* Ajusta el espacio horizontal entre las imágenes */
+}
+
+progress {
+    background: rgb(11, 255, 11);
+}
+
+.health progress {
+    width: 50%;
+}
+
+/* Sección adicional */
 .texto-batalla {
     color: #fff;
     font-size: 20px;
-    text-align: center;
+    height: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-
-/* Estilo para el footer */
+/* Footer */
 footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+    color: white;
+    height: 7%;
+    text-align: center;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;/* Fija el footer en la parte inferior */
+    width: 100%;/* Ancho completo */
+    bottom: 0;/* Ajusta el footer a la parte inferior */
 }
 
 .text-focus-in {
@@ -243,30 +260,24 @@ footer {
     padding-bottom: 1rem;
 }
 
-#copy {
-    color: #fff;
-    text-align: center;
-    padding: 20px;
-    font-size: 23px;
-    font-weight: bold; 
-}
-
-#copy p{
-    font-size: 13px;
-}
-
-a:hover{
-    color: rgb(255, 200, 97);
-}
-
-a{
-    color: #fff;
-    transition: 350ms;
-    transition-timing-function: ease-in-out;
-    -webkit-transition: 350ms;
-    -webkit-transition-timing-function: ease-in-out;
-}
-
-#carga img{
+#carga img {
     width: 25%;
+}
+
+/* Media queries para adaptar el diseño en diferentes tamaños de pantalla */
+@media screen and (max-width: 768px) {
+    .content {
+        flex-wrap: wrap;
+        /* Envuelve las secciones cuando no hay suficiente espacio */
+    }
+
+    .left-section,
+    .right-section {
+        max-width: 100%;
+        /* Establece un ancho máximo del 100% para una disposición de columna */
+    }
+
+    footer {
+        font-size: 15px;
+    }
 }

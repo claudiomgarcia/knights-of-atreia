@@ -92,7 +92,7 @@ const pantallaCarga = () => {
             <img src="./img/loading.gif" alt="Cargando">
             </p>
             <h4>Cargando</h4>
-    </div>`
+        </div>`
     obtenerStatsPlayer();
     obtenerStatsEnemy();
 }
@@ -151,10 +151,10 @@ function calcDamage(min, max) {
         damage *= Math.floor(1.2);
         Toastify({
             text: "Daño Critico!",
+            position: "center",
             offset: {
-                x: "45vw",
-                y: "50vh"
-            },
+                y: '50vh' // vertical axis - can be a number or a string indicating unity. eg: '2em'
+              },
             style: {
                 background: "linear-gradient(to right, #d40023, #ffab51)",
             },
@@ -175,42 +175,53 @@ function iniciarBatalla() {
     nuevaSeccion.innerHTML =
         `
         <main class="seccionBatalla">
-        <h2><a href="index.html">Knights of Atreia</a> </h2>
-        <section class="paralela">
-          <span class="nombre-usuario">
-            <h3>${usuario.nombre}</h3>
-          </span>
-          <p><img src="img/gladi.png" alt="Gladiador" class="imagen-batalla"></p>
-    
-          <div class="health">
-            <progress id="player-health-bar" max="" value=""></progress>
-            <p id="player-health-text"></p>
-          </div>
-    
-          <div class="habilidades">
+        <header>
+            <h1><a href="index.html">Knights of Atreia</a></h1>
+        </header>
+        <div class="content">
+            <section class="left-section">
+                <div class="paralela">
+                    <span class="nombre-usuario">
+                        <h2>${usuario.nombre}</h2>
+                    </span>
+                    <p><img src="img/gladi.png" alt="Gladiador" class="imagen-batalla"></p>
+
+                    <div class="health">
+                        <progress id="player-health-bar" max="" value=""></progress>
+                        <h4><p id="player-health-text"></p></h4>
+                    </div>
+                </div>
+            </section>
+            <section class="right-section">
+                <section class="paralela">
+                    <span class="nombre-enemigo">
+                        <h2>Calydon Bandit</h2>
+                    </span>
+                    <p><img src="img/calydon-bandit.png" alt="Calydon Bandit" class="imagen-batalla"></p>
+                    <div class="health">
+                        <progress id="enemy-health-bar" max="" value=""></progress>
+                        <h4><p id="enemy-health-text"></p></h4>
+                    </div>
+                </section>
+            </section>
+        </div>
+        <section class="texto-batalla" id="texto-batalla">
+            <p></p>
+        </section>
+
+        <div class="habilidades">
             <img src="img/boton-ataque.png" alt="Atacar" id="btnAtacar" class="boton-batalla">
             <img src="img/boton-defensa.png" alt="Defender" id="btnDefender" class="boton-batalla">
-          </div>
-    
-        </section>
-    
-        <section class="paralela">
-          <span class="nombre-enemigo">
-            <h3>Calydon Bandit</h3>
-          </span>
-          <p><img src="img/calydon-bandit.png" alt="Calydon Bandit" class="imagen-batalla"></p>
-    
-          <div class="health">
-            <progress id="enemy-health-bar" max="" value=""></progress>
-            <p id="enemy-health-text"></p>
-          </div>
-    
-          </section>
-    
-          <div class="texto-batalla" id="texto-batalla"></div>
-            
-           </section>
-      </main>
+        </div>
+    </main>
+    <footer>
+        <div>
+            &copy; 2023 Developed by <a href="https://github.com/claudiomgarcia" target="_blank">Claudio Garcia</a>
+            <p>
+                AION™ is a trademark of NCsoft Corporation. All Rights Reserved.
+            </p>
+        </div>
+    </footer>
 `
     // Obtiene los elementos de la barra de vida desde el DOM
     playerHealthBar = document.getElementById("player-health-bar");
@@ -251,8 +262,8 @@ function attackFunction() {
     if (movimiento_pc == ATTACK) {
         enemy.ataque = calcDamage(enemy.ataque_min, enemy.ataque_max);
         textoBatalla.innerHTML = `
-         <p>Atacas con ${player.ataque} puntos</p>
-         <p>El enemigo ataca con ${enemy.ataque} puntos</p>`
+         Atacas con ${player.ataque} puntos<br>
+         El enemigo ataca con ${enemy.ataque} puntos`
 
         player.vida -= enemy.ataque;
         enemy.vida -= player.ataque;
@@ -277,8 +288,8 @@ function attackFunction() {
             enemyHealthBar.value = enemy.vida;
             hpTextEnemy.innerHTML = "HP: " + enemy.vida;
             textoBatalla.innerHTML = `
-        <p>Atacas con ${player.ataque} puntos</p>
-        <p>El enemigo defiende con ${enemy.defensa} puntos</p>`
+        Atacas con ${player.ataque} puntos<br>
+        El enemigo defiende con ${enemy.defensa} puntos`
         }
 
         comprobarHp(player.vida, enemy.vida);
@@ -303,8 +314,8 @@ function defenseFunction() {
         }
         else {
             textoBatalla.innerHTML = `
-         <p>Defiendes con ${player.defensa} puntos</p>
-         <p>El enemigo ataca con ${enemy.ataque} puntos</p>`
+         Defiendes con ${player.defensa} puntos<br>
+         El enemigo ataca con ${enemy.ataque} puntos`
 
             player.vida -= enemy.ataque;
             playerHealthBar.value = player.vida;
